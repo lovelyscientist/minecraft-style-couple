@@ -362,34 +362,36 @@ function animate() {
 	// required if controls.enableDamping or controls.autoRotate are set to true
 	controls.update();
 
-	if (girl['head'].position.x > -75) {
-		let x_shift = 0.3,
-			z_shift = 0.12;
-		girl['head'].position.x = girl['head'].position.x - x_shift*2
-		boy['head'].position.x = boy['head'].position.x + x_shift/1.5
-		girl['left_hand'].position.x = girl['left_hand'].position.x - x_shift*2
-		boy['left_hand'].position.x = boy['left_hand'].position.x + x_shift/1.5
-		girl['right_hand'].position.x = girl['right_hand'].position.x - x_shift*2
-		boy['right_hand'].position.x = boy['right_hand'].position.x + x_shift/1.5
-		girl['right_leg'].position.x = girl['right_leg'].position.x - x_shift*2
-		boy['right_leg'].position.x = boy['right_leg'].position.x + x_shift/1.5
-		girl['left_leg'].position.x = girl['left_leg'].position.x - x_shift*2
-		boy['left_leg'].position.x = boy['left_leg'].position.x + x_shift/1.5
-		girl['body'].position.x = girl['body'].position.x - x_shift*2
-		boy['body'].position.x = boy['body'].position.x + x_shift/1.5
+	if (girl['head'].position.x > -65) {
+		let x_shift_girl = 0.6,
+			x_shift_boy = 0.3/1.2,
+			z_shift_girl = 0.24,
+			z_shift_boy = 0.12/1.2;
+		girl['head'].position.x = girl['head'].position.x - x_shift_girl
+		boy['head'].position.x = boy['head'].position.x + x_shift_boy
+		girl['left_hand'].position.x = girl['left_hand'].position.x - x_shift_girl
+		boy['left_hand'].position.x = boy['left_hand'].position.x + x_shift_boy
+		girl['right_hand'].position.x = girl['right_hand'].position.x - x_shift_girl
+		boy['right_hand'].position.x = boy['right_hand'].position.x + x_shift_boy
+		girl['right_leg'].position.x = girl['right_leg'].position.x - x_shift_girl
+		boy['right_leg'].position.x = boy['right_leg'].position.x + x_shift_boy
+		girl['left_leg'].position.x = girl['left_leg'].position.x - x_shift_girl
+		boy['left_leg'].position.x = boy['left_leg'].position.x + x_shift_boy
+		girl['body'].position.x = girl['body'].position.x - x_shift_girl
+		boy['body'].position.x = boy['body'].position.x + x_shift_boy
 
-		girl['head'].position.z = girl['head'].position.z - z_shift*2
-		boy['head'].position.z = boy['head'].position.z + z_shift/1.5
-		girl['body'].position.z = girl['body'].position.z - z_shift*2
-		boy['body'].position.z = boy['body'].position.z + z_shift/1.5
-		girl['left_hand'].position.z = girl['left_hand'].position.z - z_shift*2
-		boy['left_hand'].position.z = boy['left_hand'].position.z + z_shift/1.5
-		girl['right_hand'].position.z = girl['right_hand'].position.z - z_shift*2
-		boy['right_hand'].position.z = boy['right_hand'].position.z + z_shift/1.5
-		girl['right_leg'].position.z = girl['right_leg'].position.z - z_shift*2
-		boy['right_leg'].position.z = boy['right_leg'].position.z + z_shift/1.5
-		girl['left_leg'].position.z = girl['left_leg'].position.z - z_shift*2
-		boy['left_leg'].position.z = boy['left_leg'].position.z + z_shift/1.5
+		girl['head'].position.z = girl['head'].position.z - z_shift_girl
+		boy['head'].position.z = boy['head'].position.z + z_shift_boy
+		girl['body'].position.z = girl['body'].position.z - z_shift_girl
+		boy['body'].position.z = boy['body'].position.z + z_shift_boy
+		girl['left_hand'].position.z = girl['left_hand'].position.z - z_shift_girl
+		boy['left_hand'].position.z = boy['left_hand'].position.z + z_shift_boy
+		girl['right_hand'].position.z = girl['right_hand'].position.z - z_shift_girl
+		boy['right_hand'].position.z = boy['right_hand'].position.z + z_shift_boy
+		girl['right_leg'].position.z = girl['right_leg'].position.z - z_shift_girl
+		boy['right_leg'].position.z = boy['right_leg'].position.z + z_shift_boy
+		girl['left_leg'].position.z = girl['left_leg'].position.z - z_shift_girl
+		boy['left_leg'].position.z = boy['left_leg'].position.z + z_shift_boy
 
 		//camera.rotation.y  += 10
 	} else {
