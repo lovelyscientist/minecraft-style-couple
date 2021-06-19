@@ -5,13 +5,46 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
-const axesHelper = new THREE.AxesHelper( 20 );
-scene.add( axesHelper );
+//const axesHelper = new THREE.AxesHelper( 20 );
+//scene.add( axesHelper );
 
 scene.background = new THREE.Color( 0xbfe3dd );
 
 import * as THREE from 'https://cdn.skypack.dev/three@0.129.0';
 import { OrbitControls } from './orbit_controls.js';
+
+function draw_cake() {
+	let coordinates = [
+			[0,0,0],[1,0,0], [2,0,0], [3,0,0],
+			[0,0,1],[1,0,1], [2,0,1], [3,0,1],
+			[0,0,2],[1,0,2], [2,0,2], [3,0,2],
+			[0,0,3],[1,0,3], [2,0,3], [3,0,3],
+			[1,0,-1], [2,0,-1],
+			[-1,0,1], [-1,0,2],
+			[1,0,4], [2,0,4],
+			[4, 0, 1], [4, 0, 2],
+			[0.5, 0, -0.5], [-0.5,0,0.5],
+			[-0.5,0,2.5], [0.5,0,3.5],
+			[2.5,0,3.5], [3.5,0,2.5],
+			[3.5, 0, 0.5], [2.5, 0, 0],
+		],
+		cake_color = new THREE.MeshBasicMaterial( { color: '#622c08' } ),
+		group = new THREE.Group();
+
+	coordinates.forEach(function(item, index, array) {
+		let cake = new THREE.BoxGeometry(1, 1, 1),
+			mesh = new THREE.Mesh(cake, cake_color);
+		let edges = new THREE.EdgesGeometry( cake );
+		let line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 'white' } ) );
+		mesh.position.set(item[0] - 5 - 6, item[1] - 9, item[2] + 3.7 - 87)
+		line.position.set(item[0] - 5 - 6, item[1] - 9, item[2] + 3.7 - 87)
+		group.add(mesh)
+		group.add(line)
+	})
+
+	scene.add(group)
+	return group
+}
 
 function draw_hearts() {
 	let coordinates = [
@@ -68,18 +101,21 @@ function draw_persona(x_shift, z_shift, settings) {
 	let shoes_gem = new THREE.BoxGeometry( settings.shoes_size[0], settings.shoes_size[1], settings.shoes_size[2] );
 
 	let hair = new THREE.MeshBasicMaterial( { color: settings.hair_color } );
+	let shoe_color = new THREE.MeshBasicMaterial( { color: settings.shoe_color } );
 	let skin = new THREE.MeshBasicMaterial( { color: settings.skin_color } );
 	let white_color = new THREE.MeshBasicMaterial( { color: 'white' } );
 	let t_shirt_color = new THREE.MeshBasicMaterial( { color: settings.tshirt_color} );
 	let eyes_green = new THREE.MeshBasicMaterial( { color: settings.eyes_color } );
 	let mouse = new THREE.MeshBasicMaterial( { color: settings.mouse_color } );
 	let pants_color = new THREE.MeshBasicMaterial( { color: settings.pants_color  } );
-	let cheeks_color = new THREE.MeshBasicMaterial( { color: '#ffdae0'  } );
+	let cheeks_color = new THREE.MeshBasicMaterial( { color: settings.skin_color } );
 	//var texture = new THREE.TextureLoader().load('./me_texture.png');
 	//				texture.magFilter = THREE.NearestFilter;
 	//				texture.minFilter = THREE.LinearMipMapLinearFilter;
 
 	hair_coordinates = hair_coordinates.concat(settings.ponytail_coordinates)
+
+	let cheek_meshes = [];
 
 	hair_coordinates.forEach(function(item, index, array) {
 		let gem = new THREE.BoxGeometry( 1, 1, 1 );
@@ -145,6 +181,7 @@ function draw_persona(x_shift, z_shift, settings) {
 		if (checkAvailability(cheeks, item)) {
 			c = new THREE.Mesh( gem, cheeks_color);
 			is_hair = false;
+			cheek_meshes.push(c)
 		}
 
 		if (is_hair) {
@@ -166,8 +203,8 @@ function draw_persona(x_shift, z_shift, settings) {
 	let hand_left = new THREE.Mesh( hands_gem, skin);
 	let pants_right = new THREE.Mesh( pants_gem, pants_color);
 	let pants_left = new THREE.Mesh( pants_gem, pants_color);
-	let shoes_right = new THREE.Mesh( shoes_gem, white_color);
-	let shoes_left = new THREE.Mesh( shoes_gem, white_color);
+	let shoes_right = new THREE.Mesh( shoes_gem, shoe_color);
+	let shoes_left = new THREE.Mesh( shoes_gem, shoe_color);
 
 	let mesh_collection = [
 		{'object': tshirt, 'key': 'tshirt'},
@@ -218,7 +255,8 @@ function draw_persona(x_shift, z_shift, settings) {
 		'right_leg': group_right_leg,
 		'left_hand': group_left_hand,
 		'right_hand': group_right_hand,
-		'head': group_head
+		'head': group_head,
+		'cheeks': cheek_meshes
 	}
 }
 
@@ -227,9 +265,10 @@ let boy_settings = {
 		"hair_color": "#a0785a",
 		"skin_color": "#ffdbac",
 		"eyes_color": "#4b5d16",
-		"mouse_color": "#ffa7b6",
+		"mouse_color": "#e5acb6",
 		"pants_color": "#add8e6",
 		"in_dress": false,
+		"shoe_color": "white",
 		"tshirt_color": "white",
 		"tshirt_size": [8, 9, 4],
 		"sleeves_size": [4, 4, 4],
@@ -262,10 +301,11 @@ let boy_settings = {
 		"hair_color": "orange",
 		"skin_color": "#FCE1D5",
 		"eyes_color": "#4b5d16",
-		"mouse_color": "#ff8da1",
+		"mouse_color": "#ff748c",
 		"pants_color": "#FCE1D5",
 		"in_dress": false,
-		"tshirt_color": "pink", // #4b5d16
+		"tshirt_color": "#bab86c", // #4b5d16
+		"shoe_color": "#bab86c",
 		"tshirt_size": [6, 17, 4],
 		"sleeves_size": [3, 3, 3],
 		"hands_size": [3, 6, 3],
@@ -293,14 +333,15 @@ let boy_settings = {
 			"shoes_right": [-19, 5.2, 3.7]
 		},
 		"rotations": {
-			"sleeve_left": [0, 0, 0],
-			"hand_left": [0, 0, 0]
+			"hand_left": [-Math.PI/4, 0, 0],
+			"hand_right": [-Math.PI/4, 0, 0]
 		}
 	};
 
 
 let boy = draw_persona(-6, -50,  boy_settings), // 0 0
-	girl = draw_persona(-12, -90, girl_settings); // -6 -40
+	girl = draw_persona(-12, -90, girl_settings),
+	cake = draw_cake()// -6 -40
 
 
 let quaternion = new THREE.Quaternion();
@@ -310,6 +351,10 @@ quaternion2.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), -90);
 
 //boy['head'].position.applyQuaternion(quaternion);
 //girl['head'].position.applyQuaternion(quaternion);
+
+
+cake.quaternion.premultiply(quaternion2);
+
 
 girl['head'].quaternion.premultiply(quaternion2);
 girl['body'].quaternion.premultiply(quaternion2);
@@ -325,7 +370,8 @@ boy['right_hand'].quaternion.premultiply(quaternion);
 boy['left_leg'].quaternion.premultiply(quaternion);
 boy['right_leg'].quaternion.premultiply(quaternion);
 
-let zoom = 0.6
+
+let zoom = 0.5
 
 camera.position.z = 85*zoom;
 camera.position.x = -48*zoom;
@@ -368,6 +414,7 @@ function animate() {
 			z_shift_girl = 0.24,
 			z_shift_boy = 0.12/1.2;
 		girl['head'].position.x = girl['head'].position.x - x_shift_girl
+		cake.position.x = cake.position.x - x_shift_girl
 		boy['head'].position.x = boy['head'].position.x + x_shift_boy
 		girl['left_hand'].position.x = girl['left_hand'].position.x - x_shift_girl
 		boy['left_hand'].position.x = boy['left_hand'].position.x + x_shift_boy
@@ -381,6 +428,7 @@ function animate() {
 		boy['body'].position.x = boy['body'].position.x + x_shift_boy
 
 		girl['head'].position.z = girl['head'].position.z - z_shift_girl
+		cake.position.z = cake.position.z - z_shift_girl
 		boy['head'].position.z = boy['head'].position.z + z_shift_boy
 		girl['body'].position.z = girl['body'].position.z - z_shift_girl
 		boy['body'].position.z = boy['body'].position.z + z_shift_boy
@@ -396,17 +444,31 @@ function animate() {
 		//camera.rotation.y  += 10
 	} else {
 		if (!heart_drawn) {
-			let heart_group = draw_hearts(),
-				q = new THREE.Quaternion();
-			q.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), 45);
 
-			//boy['head'].position.applyQuaternion(quaternion);
-			//girl['head'].position.applyQuaternion(quaternion);
+			setTimeout(function(){
+				girl['cheeks'].forEach(function(item, index, array) {
+					item.material.color.set('#ffc0cb');
+				})
+				boy['cheeks'].forEach(function(item, index, array) {
+					item.material.color.set('#ffc0cb');
+				})
+			 }, 1000);
 
-			heart_group.quaternion.premultiply(q);
-			heart_group.position.z = heart_group.position.z - 7
-			heart_group.position.x = heart_group.position.x + 2
-			heart_drawn = true;
+
+			setTimeout(function(){
+				let heart_group = draw_hearts(),
+					q = new THREE.Quaternion();
+					q.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), 45);
+
+					//boy['head'].position.applyQuaternion(quaternion);
+					//girl['head'].position.applyQuaternion(quaternion);
+
+					heart_group.quaternion.premultiply(q);
+					heart_group.position.z = heart_group.position.z - 5
+					heart_group.position.x = heart_group.position.x + 7
+					heart_drawn = true;
+				}, 2000);
+
 		}
 	}
 
