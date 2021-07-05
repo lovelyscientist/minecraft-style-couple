@@ -1,11 +1,11 @@
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+var scene = new THREE.Scene(),
+	camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 ),
+	renderer = new THREE.WebGLRenderer();
 
-var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
-//const axesHelper = new THREE.AxesHelper( 20 );
+//const axesHelper = new THREE.AxesHelper( 20 ); // enable to see the coordinates
 //scene.add( axesHelper );
 
 scene.background = new THREE.Color( 0xbfe3dd );
@@ -41,6 +41,7 @@ function draw_cake() {
 			[2.5,1,3.5], [3.5,1,2.5],
 			[3.5, 1, 0.5], [2.5, 1, 0],
 		],
+
 		cake_color = new THREE.MeshBasicMaterial( { color: '#622c08' } ),
 		group = new THREE.Group();
 
@@ -107,46 +108,43 @@ function draw_persona(x_shift, z_shift, settings) {
 		}
 	}
 
-	let tshirt_gem = new THREE.BoxGeometry( settings.tshirt_size[0], settings.tshirt_size[1], settings.tshirt_size[2]);
-	let sleeves_gem = new THREE.BoxGeometry( settings.sleeves_size[0], settings.sleeves_size[1], settings.sleeves_size[2] );
-	let hands_gem = new THREE.BoxGeometry( settings.hands_size[0], settings.hands_size[1], settings.hands_size[2]);
-	let pants_gem = new THREE.BoxGeometry( settings.pants_size[0], settings.pants_size[1], settings.pants_size[2] );
-	let shoes_gem = new THREE.BoxGeometry( settings.shoes_size[0], settings.shoes_size[1], settings.shoes_size[2] );
+	let tshirt_gem = new THREE.BoxGeometry( settings.tshirt_size[0], settings.tshirt_size[1], settings.tshirt_size[2]),
+		sleeves_gem = new THREE.BoxGeometry( settings.sleeves_size[0], settings.sleeves_size[1], settings.sleeves_size[2] ),
+		hands_gem = new THREE.BoxGeometry( settings.hands_size[0], settings.hands_size[1], settings.hands_size[2]),
+		pants_gem = new THREE.BoxGeometry( settings.pants_size[0], settings.pants_size[1], settings.pants_size[2] ),
+		shoes_gem = new THREE.BoxGeometry( settings.shoes_size[0], settings.shoes_size[1], settings.shoes_size[2] ),
+		hair = new THREE.MeshBasicMaterial( { color: settings.hair_color } ),
+		shoe_color = new THREE.MeshBasicMaterial( { color: settings.shoe_color } ),
+		skin = new THREE.MeshBasicMaterial( { color: settings.skin_color } ),
+		white_color = new THREE.MeshBasicMaterial( { color: 'white' } ),
+		t_shirt_color = new THREE.MeshBasicMaterial( { color: settings.tshirt_color} ),
+		eyes_green = new THREE.MeshBasicMaterial( { color: settings.eyes_color } ),
+		mouth = new THREE.MeshBasicMaterial( { color: settings.mouth_color } ),
+		pants_color = new THREE.MeshBasicMaterial( { color: settings.pants_color  } ),
+		cheeks_color = new THREE.MeshBasicMaterial( { color: settings.skin_color } );
 
-	let hair = new THREE.MeshBasicMaterial( { color: settings.hair_color } );
-	let shoe_color = new THREE.MeshBasicMaterial( { color: settings.shoe_color } );
-	let skin = new THREE.MeshBasicMaterial( { color: settings.skin_color } );
-	let white_color = new THREE.MeshBasicMaterial( { color: 'white' } );
-	let t_shirt_color = new THREE.MeshBasicMaterial( { color: settings.tshirt_color} );
-	let eyes_green = new THREE.MeshBasicMaterial( { color: settings.eyes_color } );
-	let mouse = new THREE.MeshBasicMaterial( { color: settings.mouse_color } );
-	let pants_color = new THREE.MeshBasicMaterial( { color: settings.pants_color  } );
-	let cheeks_color = new THREE.MeshBasicMaterial( { color: settings.skin_color } );
-	//var texture = new THREE.TextureLoader().load('./me_texture.png');
-	//				texture.magFilter = THREE.NearestFilter;
-	//				texture.minFilter = THREE.LinearMipMapLinearFilter;
 
 	hair_coordinates = hair_coordinates.concat(settings.ponytail_coordinates)
 
 	let cheek_meshes = [];
 
 	hair_coordinates.forEach(function(item, index, array) {
-		let gem = new THREE.BoxGeometry( 1, 1, 1 );
-		let c;
-		let white_eyes = [
-			[1, 4, 7], [6, 4, 7],
-		]
-		let green_eyes = [
-			[2, 4, 7], [5, 4, 7],
-		]
-		let mouse_list = [
-			[3, 1, 7], [4, 1, 7],
-		]
-		let cheeks = [ //#ffdae0
-			[1, 2, 7], [6, 2, 7],
-		]
+		let gem = new THREE.BoxGeometry( 1, 1, 1 ),
+			c,
+			white_eyes = [
+				[1, 4, 7], [6, 4, 7],
+			],
+			green_eyes = [
+				[2, 4, 7], [5, 4, 7],
+			],
+			mouth_list = [
+				[3, 1, 7], [4, 1, 7],
+			],
+			cheeks = [ //#ffdae0
+				[1, 2, 7], [6, 2, 7],
+			];
 		let head_skin_cubes = [
-			[4, 6, 7], [5, 6, 7], [2, 6, 7], [3, 4, 7], [4, 4, 7], [5, 4, 7], // front chelka
+			[4, 6, 7], [5, 6, 7], [2, 6, 7], [3, 4, 7], [4, 4, 7], [5, 4, 7], // front
 			[4, 5, 7], [2, 5, 7], [3, 5, 7], [4, 5, 7], [5, 5, 7], [1, 5, 7], [6, 5, 7],
 			[0, 3, 7], [0, 2, 7], [0, 1, 7], [0, 0, 7], [0, 4, 5], [0, 3, 5], [0, 2, 5], [0, 1, 5], [0, 0, 5],
 			[0, 3, 6], [0, 2, 6], [0, 1, 6], [0, 0, 6],
@@ -175,14 +173,13 @@ function draw_persona(x_shift, z_shift, settings) {
 			is_hair = false;
 		}
 
-		if (checkAvailability(mouse_list, item)) {
-			c = new THREE.Mesh( gem, mouse);
+		if (checkAvailability(mouth_list, item)) {
+			c = new THREE.Mesh( gem, mouth);
 			is_hair = false;
 		}
 
 		if (checkAvailability(green_eyes, item)) {
 			c = new THREE.Mesh( gem, eyes_green);
-			console.log('*')
 			is_hair = false;
 		}
 
@@ -209,15 +206,15 @@ function draw_persona(x_shift, z_shift, settings) {
 	})
 
 
-	let tshirt = new THREE.Mesh( tshirt_gem, t_shirt_color);
-	let sleeve_left = new THREE.Mesh( sleeves_gem, t_shirt_color);
-	let sleeve_right = new THREE.Mesh( sleeves_gem, t_shirt_color);
-	let hand_right = new THREE.Mesh( hands_gem, skin);
-	let hand_left = new THREE.Mesh( hands_gem, skin);
-	let pants_right = new THREE.Mesh( pants_gem, pants_color);
-	let pants_left = new THREE.Mesh( pants_gem, pants_color);
-	let shoes_right = new THREE.Mesh( shoes_gem, shoe_color);
-	let shoes_left = new THREE.Mesh( shoes_gem, shoe_color);
+	let tshirt = new THREE.Mesh( tshirt_gem, t_shirt_color),
+		sleeve_left = new THREE.Mesh( sleeves_gem, t_shirt_color),
+		sleeve_right = new THREE.Mesh( sleeves_gem, t_shirt_color),
+		hand_right = new THREE.Mesh( hands_gem, skin),
+		hand_left = new THREE.Mesh( hands_gem, skin),
+		pants_right = new THREE.Mesh( pants_gem, pants_color),
+		pants_left = new THREE.Mesh( pants_gem, pants_color),
+		shoes_right = new THREE.Mesh( shoes_gem, shoe_color),
+		shoes_left = new THREE.Mesh( shoes_gem, shoe_color);
 
 	let mesh_collection = [
 		{'object': tshirt, 'key': 'tshirt'},
@@ -252,9 +249,6 @@ function draw_persona(x_shift, z_shift, settings) {
 	group_left_hand.add(hand_left)
 	group_left_hand.add(sleeve_left)
 
-	//sleeve_right.rotation.x = -Math.PI / 6;
-	//hand_right.rotation.x = -Math.PI / 6;
-
 	scene.add(group_body);
 	scene.add(group_left_leg);
 	scene.add(group_right_leg);
@@ -278,7 +272,7 @@ let boy_settings = {
 		"hair_color": "#a0785a",
 		"skin_color": "#ffdbac",
 		"eyes_color": "#4b5d16",
-		"mouse_color": "#e5acb6",
+		"mouth_color": "#e5acb6",
 		"pants_color": "#add8e6",
 		"in_dress": false,
 		"shoe_color": "white",
@@ -314,7 +308,7 @@ let boy_settings = {
 		"hair_color": "orange",
 		"skin_color": "#FCE1D5",
 		"eyes_color": "#4b5d16",
-		"mouse_color": "#ff748c",
+		"mouth_color": "#ff748c",
 		"pants_color": "#FCE1D5",
 		"in_dress": false,
 		"tshirt_color": "#bab86c", // #4b5d16
@@ -352,22 +346,17 @@ let boy_settings = {
 	};
 
 
-let boy = draw_persona(-6, -50,  boy_settings), // 0 0
+let boy = draw_persona(-6, -50,  boy_settings),
 	girl = draw_persona(-12, -90, girl_settings),
-	cake = draw_cake()// -6 -40
+	cake = draw_cake()
 
 
-let quaternion = new THREE.Quaternion();
+let quaternion = new THREE.Quaternion(),
+	quaternion2 = new THREE.Quaternion();
 quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), 45);
-let quaternion2 = new THREE.Quaternion();
 quaternion2.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), -90);
 
-//boy['head'].position.applyQuaternion(quaternion);
-//girl['head'].position.applyQuaternion(quaternion);
-
-
 cake.quaternion.premultiply(quaternion2);
-
 
 girl['head'].quaternion.premultiply(quaternion2);
 girl['body'].quaternion.premultiply(quaternion2);
@@ -397,19 +386,11 @@ var controls = new OrbitControls( camera, renderer.domElement );
 animate();
 
 controls.listenToKeyEvents( window ); // optional
-
-
-
-//controls.addEventListener( 'change', renderer.render( scene, camera ) ); // call this only in static scenes (i.e., if there is no animation loop)
-
 controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
 controls.dampingFactor = 0.05;
-
 controls.screenSpacePanning = false;
-
 controls.minDistance = 5;
 controls.maxDistance = 200;
-
 controls.maxPolarAngle = Math.PI / 2;
 
 let heart_drawn = false;
@@ -488,17 +469,3 @@ function animate() {
 	renderer.render( scene, camera );
 
 }
-
-
-/*var animate = function () {
-	requestAnimationFrame( animate );
-
-	cube.rotation.x += 0.01;
-	cube.rotation.y += 0.01;
-  	cube2.rotation.x += 0.01;
-	cube2.rotation.y += 0.01;
-
-	renderer.render( scene, camera );
-}; */
-
-//animate();
