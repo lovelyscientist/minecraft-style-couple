@@ -1,7 +1,7 @@
 # Template for generation of minecraft-style characters in Three.js
 
 This is a template that can be used to create couple / characters in a minecraft-like geometry using *Three.js*.    
-You can check a live demo [here](https://minecraft-anniversary.herokuapp.com/index.html). You can rotate, zoom in and zoom out the scene.   
+You can check a live demo [here](https://minecraft-anniversary.netlify.app/). You can rotate, zoom in and zoom out the scene.   
 
 <img src="recording.gif" width="450" height="300"/>
 
